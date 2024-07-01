@@ -4,7 +4,7 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{graphicx}
-\usepackage{hyperref}
+\usepackage[colorlinks=true, linkcolor=blue, citecolor=blue, filecolor=blue, urlcolor=blue, pdfborder={0 0 0}]{hyperref}
 \usepackage{algorithm}
 \usepackage{algorithmic}
 \usepackage{cite}
@@ -22,7 +22,7 @@
 \maketitle
 
 \begin{abstract}
-This paper suggests a novel method for decoding whale songs using backtranslation techniques. We propose a framework that involves training models to translate whale vocalizations to English and back, ensuring consistency and accuracy through reinforcement learning. The approach is to maximize the likelihood of joint probability distributions, providing a robust model for understanding animal communication.
+This paper suggests a novel method for decoding whale songs using backtranslation techniques. I propose a framework that involves training models to translate whale vocalizations to English and back, ensuring consistency and accuracy through reinforcement learning. The approach is to maximize the likelihood of joint probability distributions, providing a robust model for understanding animal communication.
 \end{abstract}
 
 \section{Introduction}
@@ -132,11 +132,12 @@ We analyze the results of three datasets:
 
 3) Recordings of over 15,000 manually tagged clicks from multiple whales we recorded on the Dominica Island together with 3.6 hours of noise-only data. \\ \\
 The implementation code of our detector and our dataset for both SW clicks and noise transients, as well as our manual annotations are available in \cite{ceti}. \\ \\
-Also see: \\
-\href{https://www.projectceti.org/}{project ceti} \\ \\
-\href{https://www.projectceti.org/news-research-insights#publications}{project ceti publications}
- \\ \\
-\href{https://www.youtube.com/playlist?list=PL-7Ju3RM0_oUKDIfBWlsOhONsXimWfMlF}{Project CETI Workshop - Decoding Communication in Nonhuman June 12-13, 2023 @ Simons Institute for the Theory of Computing.}
+Also see:
+\begin{itemize}
+    \item \href{https://www.projectceti.org/}{Project CETI}
+    \item \href{https://www.projectceti.org/news-research-insights#publications}{Project CETI Publications}
+    \item \href{https://www.youtube.com/playlist?list=PL-7Ju3RM0_oUKDIfBWlsOhONsXimWfMlF}{Project CETI Workshop - Decoding Communication in Nonhuman June 12-13, 2023 @ Simons Institute for the Theory of Computing}
+\end{itemize}
 
 \section{Validation}
 Validation is performed using unseen whale vocalizations, comparing the accuracy of \textit{whale\_to\_english\_back\_to\_whale} to that of the training data.
