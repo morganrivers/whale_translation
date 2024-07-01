@@ -4,5 +4,6 @@
 
 
 ## What's the deal with this repository?
-The point of this repository is to provide a live version of my paper drafts as I'm writing them to the public. I'm trying to get better at putting my ideas and work out there in the world, and this is my current strategy. It's a form of [perpetual beta](https://en.wikipedia.org/wiki/Perpetual_beta).
-This repository is a copy of the [original github template](https://github.com/LKedward/latex-github-collab) which is a github actions workflow based tool to render Latex documents on every push to the main branch.
+The point of this repository is to provide the latest version of my LaTeX papers to anyone who's interested. I'm trying to get better at putting my ideas and work out there in the world, and this is my current strategy. It's a form of [perpetual beta](https://en.wikipedia.org/wiki/Perpetual_beta).
+
+This repository is a copy of the [original latex-github-collab github template](https://github.com/LKedward/latex-github-collab) by Laurence Kedward which is a github actions workflow based tool to render LaTeX documents on every push to the main branch.
