@@ -13,7 +13,7 @@ on:
 
 env:
   APT_DEPS: texlive-latex-recommended texlive-latex-extra texlive-extra-utils latexdiff perl rubber
-  REPO_URL: https://github.com/LKedward/latex-github-collab
+  REPO_URL: https://github.com/morganrivers/whale_translation
   TEXTIDOTE_URL: https://github.com/sylvainhalle/textidote/releases/download/v0.8.2/textidote_0.8.2_all.deb
 
 jobs:
