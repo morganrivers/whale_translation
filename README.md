@@ -1,4 +1,4 @@
-# Latest paper version (Work in progress)
+# [Latest paper version (Work in progress)](https://github.com/morganrivers/whale_translation/blob/previews/master/paper.pdf)
 
 [![CI](https://github.com/morganrivers/whale_translation/actions/workflows/CI.yml/badge.svg)](https://github.com/morganrivers/whale_translation/actions/workflows/CI.yml) [[__View Paper Preview__](https://github.com/morganrivers/whale_translation/blob/previews/master/paper.pdf)]
 
