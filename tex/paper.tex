@@ -1,87 +1,182 @@
-\documentclass[]{article}
+\documentclass{article}
 
-\title{Collaborative LaTeX Writing using Git and Github Actions}
-\author{Laurence Kedward}
+% Basic packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{cite}
 
-\usepackage{listings}
-\usepackage[colorlinks,urlcolor=blue,linkcolor=blue,citecolor=blue]{hyperref}
+% Title and author
+\title{A Proposal for the Use of Backtranslation to Decode Whale Songs}
+\author{Morgan Rivers \\
+        Department of Physics \\
+        Freie Universität Berlin \\    
+        \texttt{danielmorganrivers@gmail.com}
+}
 
 \begin{document}
 
 \maketitle
 
+\begin{abstract}
+This paper suggests a novel method for decoding whale songs using backtranslation techniques. We propose a framework that involves training models to translate whale vocalizations to English and back, ensuring consistency and accuracy through reinforcement learning. The approach is to maximize the likelihood of joint probability distributions, providing a robust model for understanding animal communication.
+\end{abstract}
 
-Repository available at: \url{https://github.com/LKedward/latex-github-collab}
+\section{Introduction}
+Decoding whale songs presents a unique challenge in the field of animal communication. In this paper, we propose an unsupervised translation approach motivated by understanding animal communication. This involves using backtranslation techniques to create a model that can translate whale vocalizations into English and back, ensuring that the translations are contextually and semantically accurate.\\ \\
+I will use the term "Whale" to refer to the language Whales are speaking. i.e., "She understands both Whale and English."
 
-\section{Compiling Locally}
+\section{Related Work}
+Studies on neural networks, such as AlphaFold for molecular interactions, have shown the potential for applying similar techniques to decode whale songs. \\ \\
+One paper specifically about whales is interesting, and partially motivated this work:
+"A Theory of Unsupervised Translation Motivated by Understanding Animal Communication" (https://arxiv.org/abs/2211.11081) \\ \\
+However, it lacks specificity and clarity for their favored approach, and tries to cover a lot of ground which is not entirely needed for simply trying to translate Whale.
 
-\subsection{Prerequisites}
 
-Compiling locally is possible with any LaTeX distribution; the github actions workflow running on Ubuntu 20.04 uses the following packages (all installable via `apt`):
+\section{Introduction}
+This paper proposes a novel approach to translate whale vocalizations into human language using transformer-based language models. The method involves training multiple models on whale vocalizations and human language, then using a series of translation steps and penalty functions to refine the translation process.
 
-\subsection*{Mandatory}
+\section{Data Preparation}
+The initial data consists of a large corpus of whale vocalizations, encoded as text with accompanying environmental context. Each vocalization is attributed to a specific whale, with information about the time and surrounding whales. This data is formatted similarly to a theatrical script, with each entry requiring less than 2048 tokens.
+
+\section{Model Architecture}
+Three decoder-only transformer language models are utilized:
+
 \begin{itemize}
-	
-	\item \texttt{texlive-latex-recommended}
-	\item \texttt{texlive-latex-extra}
-	
+    \item $M_w$: Trained solely on whale vocalizations
+    \item $M_e$: Trained solely on English text
+    \item $M_{we}$: Trained on both whale vocalizations and English text
 \end{itemize}
 
-\subsection*{Optional}
+\section{Training Process}
+\subsection{English Context Fine-tuning}
+$M_e$ is fine-tuned on relevant English context, including:
 \begin{itemize}
-	
-	\item \texttt{texlive-latex-utils} \quad (for \texttt{texcount})
-	\item \texttt{rubber} \quad (for using the \texttt{Makefile})
-	\item \texttt{perl} \quad (for \texttt{texcount} and \texttt{latexdiff})
-	\item \texttt{latexdiff}
-	
+    \item English plays
+    \item Scientific literature about whales
+    \item Biology and science textbooks focusing on whales
+    \item Specific context about the region and family of whales being studied
 \end{itemize}
 
+\subsection{Whale Language Model Training}
+$M_w$ is trained to predict the next tokens in the whale text, excluding environmental context unless dependent on whale actions.
 
-\subsection{Makefile}
+\subsection{Bilingual Model Training}
+$M_{we}$ is trained on both whale vocalizations and English text, with a focus on maintaining proficiency in both languages.
 
-For convenience a Makefile is included which relies on the [rubber](https://gitlab.com/latex-rubber/rubber/) LaTeX wrapper:
+\section{Translation Methodology}
+\subsection{Whale to English Translation}
+$M_{we}$ is prompted with:
+\begin{verbatim}
+[Environmental context]
+[Paragraph of Whale]
+Please translate the above paragraph to English:
+\end{verbatim}
+
+The resulting translation is denoted as \textit{whale\_to\_english}.
+
+\subsection{English to Whale Back-translation}
+The \textit{whale\_to\_english} translation is then used to prompt $M_{we}$ again:
+\begin{verbatim}
+[Environmental context]
+[Paragraph of Whale translated to English (whale_to_english)]
+Please translate the above paragraph to Whale:
+\end{verbatim}
+
+The result is denoted as \textit{whale\_to\_english\_back\_to\_whale}.
+
+\section{Penalty Functions}
+Three penalty functions are employed to refine the translation process:
+
+\begin{itemize}
+    \item $P_{we}$: English likelihood penalty
+    \item $P_{wew}$: Whale context probability penalty
+    \item $P_{sd}$: Semantic distance penalty
+\end{itemize}
+
+\subsection{English Likelihood Penalty ($P_{we}$)}
+$P_{we}$ is calculated using $M_e$ to evaluate the average probability per token of the \textit{whale\_to\_english} paragraph. A high $P_{we}$ indicates an unlikely English paragraph.
+
+\subsection{Whale Context Probability Penalty ($P_{wew}$)}
+$P_{wew}$ is determined by inserting \textit{whale\_to\_english\_back\_to\_whale} into the overall whale text and calculating the probability using $M_w$. A high $P_{wew}$ indicates low probability of the translated whale text appearing in that context.
+
+\subsection{Semantic Distance Penalty ($P_{sd}$)}
+$P_{sd}$ measures the semantic distance between the original whale paragraph and \textit{whale\_to\_english\_back\_to\_whale}. A high $P_{sd}$ indicates significant divergence in meaning. This penalty is weighted higher than $P_{wew}$ to prioritize meaning preservation.
+
+\section{Putting it all together}
+The penalties are used for reinforcement learning applied to $M_{we}$. This process is repeated for all available paragraphs, potentially tens of thousands of times, effectively fine-tuning the model on a paragraph-by-paragraph basis.
+Here is a summary of the training algorithm above:
+\begin{algorithm}
+\caption{Backtranslation Algorithm}
+\begin{algorithmic}[1]
+\STATE Initialize parameters $\theta$
+\FOR{each iteration}
+\STATE Translate whale vocalizations to English
+\STATE Calculate probability penalty $Pwe$
+\STATE Translate English back to whale
+\STATE Calculate contextual and semantic penalties $Pwew$ and $Psd$
+\STATE Update parameters $\theta$ based on combined penalties
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}
+\subsection{Datasets}
+The datasets provided a comprehensive set of whale vocalizations and environmental contexts, essential for training and evaluating our models.
+We analyze the results of three datasets: 
+
+1) Seven months of recordings from the THEMO observatory \cite{themo}, containing both ambient and anthropogenic noise but no whale clicks, 
+
+2) Recordings of 1203 tagged clicks of a single whale from the Bahamas with 120 sec of noise-only recording and 
+
+3) Recordings of over 15,000 manually tagged clicks from multiple whales we recorded on the Dominica Island together with 3.6 hours of noise-only data. \\ \\
+The implementation code of our detector and our dataset for both SW clicks and noise transients, as well as our manual annotations are available in \cite{ceti}. \\ \\
+Also see: \\
+\href{https://www.projectceti.org/}{project ceti} \\ \\
+\href{https://www.projectceti.org/news-research-insights#publications}{project ceti publications}
+ \\ \\
+\href{https://www.youtube.com/playlist?list=PL-7Ju3RM0_oUKDIfBWlsOhONsXimWfMlF}{Project CETI Workshop - Decoding Communication in Nonhuman June 12-13, 2023 @ Simons Institute for the Theory of Computing.}
+
+\section{Validation}
+Validation is performed using unseen whale vocalizations, comparing the accuracy of \textit{whale\_to\_english\_back\_to\_whale} to that of the training data.
+
+\section{Potential Challenges}
+\begin{enumerate}
+    \item Poor performance of $M_w$
+    \item Insufficient context for accurate translation
+    \item Tendency towards common whale utterances in back-translation
+    \item Development of a system to "cheat" the translation process
+    \item Unclear direction of penalties for efficient learning
+    \item Overfitting to specific training data
+    \item Risk of translating only sounds and grammar without capturing meaning
+\end{enumerate}
+
+\section{Miscellaneous end notes}
+
+It might be better to have an ensemble of answers for a given translation whale\_to\_english\_back\_to\_whale, and then boost the model with the best of these answers. That addresses 5, as it gives the model a direction to move the prediction.
+
+Note: this ends up looking like an auto encoder! We are expanding into English language token space, and then going back to the original space.
 
 
-\begin{center}
-	\begin{lstlisting}[language=Bash,morekeywords={make}]
-	$ make             # generate paper.pdf
-	$ make clean       # cleanup
-	$ make spellcheck  # run codespell
-	$ make count       # run TexCount
-	$ make diff        # run latexdiff with master
-	\end{lstlisting}
-\end{center}
+Another way to help it start in the right direction is to use statistical matching: most common concepts are assumed to be all the whale words in English. So then you can give it context: given the above best guess translation, improve it to a better one. And then you pick the best answer closest to the input.
 
+\section{Conclusion}
+This approach presents a novel method for translating whale vocalizations to human language using transformer-based models and reinforcement learning. While challenges exist, the use of multiple models and carefully designed penalty functions offers a promising direction for future research in animal communication translation.
 
-\section{License: MIT}
+\begin{thebibliography}{9}
 
-The Makefile and Github actions workflow are licensed under the MIT license
+\bibitem{themo}
+Roee Diamant, Anthony Knapr, Shlomo Dahan, Ilan Mardix, John Walpert, and Steve DiMarco. 
+\textit{Themo: The texas a\&m-university of haifa-eastern mediterranean observatory}. 
+In 2018 OCEANS-MTS/IEEE Kobe Techno-Oceans (OTO), pages 1–5. IEEE, 2018.
 
-\begin{quote}
-	MIT License
-	
-	Copyright (c) 2021 Laurence Kedward
-	
-	Permission is hereby granted, free of charge, to any person obtaining a copy
-	of this software and associated documentation files (the "Software"), to deal
-	in the Software without restriction, including without limitation the rights
-	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-	copies of the Software, and to permit persons to whom the Software is
-	furnished to do so, subject to the following conditions:
-	
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-	
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-	SOFTWARE.
-\end{quote}
+\bibitem{ceti}
+Link to implementation code and database [online]. available at: 
+\url{https://drive.google.com/drive/folders/1HkGZcpYbrft3pGtqdt45bUZXVcrJVrdm?usp=sharing}.
 
-
+\end{thebibliography}
+\bibliographystyle{plain}
+\bibliography{references}
 
 \end{document}
