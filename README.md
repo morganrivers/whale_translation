@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/morganrivers/whale_translation/actions/workflows/CI.yml/badge.svg)](https://github.com/morganrivers/whale_translation/actions/workflows/CI.yml) [[__View Paper Preview__](https://github.com/morganrivers/whale_translation/blob/previews/master/paper.pdf)]
 
-This repository is a copy of the [original github template](https://github.com/LKedward/latex-github-collab) which 
-- Renders the paper on every push to master
-- Renders the paper for pull requests, including latex-diff with master
-- Calculates document word count for pull requests using texcount
+
+## What's the deal with this repository?
+The point of this repository is to provide a live version of my paper drafts as I'm writing them to the public. I'm trying to get better at putting my ideas and work out there in the world, and this is my current strategy. It's a form of [perpetual beta](https://en.wikipedia.org/wiki/Perpetual_beta).
+This repository is a copy of the [original github template](https://github.com/LKedward/latex-github-collab) which is a github actions workflow based tool to render Latex documents on every push to the main branch.
