@@ -10,7 +10,7 @@
 \usepackage{cite}
 
 % Title and author
-\title{A Proposal for the Use of Backtranslation to Decode Whale Songs}
+\title{Decoding Whale Songs Using Backtranslation and Transformer-Based Models}
 \author{Morgan Rivers \\
         Department of Physics \\
         Freie Universität Berlin \\    
@@ -22,12 +22,14 @@
 \maketitle
 
 \begin{abstract}
-This paper suggests a novel method for decoding whale songs using backtranslation techniques. I propose a framework that involves training models to translate whale vocalizations to English and back, ensuring consistency and accuracy through reinforcement learning. The approach is to maximize the likelihood of joint probability distributions, providing a robust model for understanding animal communication.
+This paper proposes a novel method for decoding whale songs using backtranslation techniques combined with transformer-based language models. The framework involves training models to translate whale vocalizations into English and back, ensuring consistency and accuracy through reinforcement learning. By maximizing the likelihood of joint probability distributions, this approach aims to create a general model for cross-species language translation.
 \end{abstract}
 
 \section{Introduction}
-Decoding whale songs presents a unique challenge in the field of animal communication. I believe communication with whales will both teach us for the first time a complete language of another species, as well as enable communication with many more animals. This will be critical to both understand the desires and steward the environment for these animals, as well as raise popular awareness of how humanity is affecting wild animals on this planet.\\
-In this paper, I propose an unsupervised translation approach motivated by understanding animal communication. This involves using backtranslation techniques to create a model that can translate whale vocalizations into English and back, ensuring that the translations are contextually and semantically accurate.\\ \\
+Decoding whale songs presents a unique challenge in the field of animal communication. I believe communication with whales will both teach us for the first time a complete language of another species, as well as enable communication with many more animals. This will be critical to both understand the desires and steward the environment for these animals, as well as raise popular awareness of how humanity is affecting wild animals on this planet.
+
+In this paper, I propose an unsupervised translation approach motivated by understanding animal communication. This involves using backtranslation techniques to create a model that can translate whale vocalizations into English and back, ensuring that the translations are contextually and semantically accurate.
+
 I will use the term "Whale" to refer to the language Whales are speaking. For example, "she understands both Whale and English."
 
 \section{Related Work}
@@ -37,9 +39,6 @@ One paper specifically about whales is interesting, and partially motivated this
 However, it lacks specificity and clarity for their favored approach, and tries to cover a lot of ground which is not entirely needed for simply trying to translate Whale.\\ \\
 Several studies have explored backtranslation techniques to improve neural machine translation. Notably, the work by Lambert et al. provides a method for improving unsupervised neural machine translation with semantically weighted backtranslation, which is particularly relevant for morphologically rich and low-resource languages \cite{backtranslation1}. Another significant contribution is by the Language Resource Association, which presents an approach for training data self-correction to enhance unsupervised neural machine translation \cite{backtranslation2}.
 
-
-\section{Introduction}
-This paper proposes a novel approach to translate whale vocalizations into human language using transformer-based language models. The method involves training multiple models on whale vocalizations and human language, then using a series of translation steps and penalty functions to refine the translation process.
 
 \section{Data Preparation}
 The initial data consists of a large corpus of whale vocalizations, encoded as text with accompanying environmental context. Each vocalization is attributed to a specific whale, with information about the time and surrounding whales. This data is formatted similarly to a theatrical script, with each entry requiring less than 2048 tokens.
@@ -98,14 +97,14 @@ Three penalty functions are employed to refine the translation process:
     \item $P_{wew}$: Whale context probability penalty
     \item $P_{sd}$: Semantic distance penalty
 \end{itemize}
-
-\subsection{English Likelihood Penalty ($P_{we}$)}
+\subsection{English Likelihood Penalty (\texorpdfstring{\(P_{we}\)}{Pwe})}
 $P_{we}$ is calculated using $M_e$ to evaluate the average probability per token of the \textit{whale\_to\_english} paragraph. A high $P_{we}$ indicates an unlikely English paragraph.
 
-\subsection{Whale Context Probability Penalty ($P_{wew}$)}
+\subsection{Whale Context Probability Penalty (\texorpdfstring{\(P_{wew}\)}{Pwew})}
+
 $P_{wew}$ is determined by inserting \textit{whale\_to\_english\_back\_to\_whale} into the overall whale text and calculating the probability using $M_w$. A high $P_{wew}$ indicates low probability of the translated whale text appearing in that context.
 
-\subsection{Semantic Distance Penalty ($P_{sd}$)}
+\subsection{Semantic Distance Penalty (\texorpdfstring{\(P_{sd}\)}{Psd})}
 $P_{sd}$ measures the semantic distance between the original whale paragraph and \textit{whale\_to\_english\_back\_to\_whale}. A high $P_{sd}$ indicates significant divergence in meaning. This penalty is weighted higher than $P_{wew}$ to prioritize meaning preservation.
 
 \section{Putting it all together}
@@ -163,8 +162,7 @@ There is a need to refine the methodology with a test case with a known solution
 
 It is important to use a language that has very little leakage into the training set for an English language model, making it reasonably analogous to the translation from whale.
 
-The methodology to test and refine the method outlined above with low resource human languages is as follows.
-
+The methodology to test and refine the method outlined above with low resource human languages is as follows.\\ \\
 Using an isolate language ensures there is no leakage of that language's grammar or words into English, preventing an easier translation due to prior knowledge.
 
 The context of the recordings should be significantly different from the context in which English is spoken. This similarity to the different context of whale vocalizations makes the task more analogous.
@@ -183,19 +181,18 @@ In selecting a test language, several criteria were considered to ensure the cho
     \item Cultural Distinction: The culture associated with the language should be distinct and relatively unrelated to Western cultures to avoid cultural leakage.
     \item Availability of Audio Recordings: Ideally, the language should have historical audio recordings that capture it in a native, traditional context.
 \end{enumerate}
-
 Several languages were considered based on these criteria:
 
 \paragraph{Old Javanese (Kawi)} An ancient language used in Java from the 8th to 16th centuries, with a rich literary tradition and a distinct Hindu-Buddhist culture. Significant corpus of digitized texts is available, including epic poems and religious texts.
 
-\paragraph{Classical Nahuatl} The language of the Aztec Empire, part of the Uto-Aztecan family, with extensive digitized texts including the Florentine Codex and Cantares Mexicanos. It offers a unique view of Mesoamerican culture.
+\paragraph{Classical Nahuatl} The language of the Aztec Empire, part of the Uto-Aztecan family, with extensive digitized texts including the Florentine Codex and Cantares Mexicanos. 
 
-\paragraph{Navajo} An Athabaskan language with a complex structure and extensive historical recordings, including those made during World War II by Navajo Code Talkers. It represents a distinct cultural heritage with minimal leakage into mainstream English culture.
+\paragraph{Navajo} An Athabaskan language with a complex structure and extensive historical recordings, including those made during World War II by Navajo Code Talkers. It has minimal leakage into mainstream English culture.
 
 \paragraph{Ket} A Yeniseian language spoken in Siberia, with a limited number of speakers and some recorded materials. It is an isolate with unique linguistic features and minimal exposure to Western culture.
 
 \paragraph{Xhosa and Zulu} Bantu languages with click consonants, spoken in South Africa. They have significant recordings and a rich cultural heritage, though there has been some cultural leakage into Western consciousness. \\ \\
-After careful consideration, \textbf{Navajo} was selected as the most suitable test language. Its polysynthetic structure, extensive historical recordings, and minimal cultural leakage make it an ideal candidate for refining the translation methodology. Additionally, the availability of recordings in traditional contexts provides valuable data for testing the translation framework.
+After careful consideration, \textbf{Navajo} was selected as the most suitable test language. Its polysynthetic structure, making it likely the most complex language to learn from a model that only knows english, extensive historical recordings, and minimal cultural leakage make it an ideal candidate for refining the translation methodology. Additionally, the availability of recordings in traditional contexts provides valuable data for testing the translation framework, and the ability of modern translation methods allows for easy validation of the final quality of the unsupervised translation framework.
 
 
 \subsection{Potential Datasets for Test Task}
