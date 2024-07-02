@@ -1,6 +1,7 @@
 \documentclass{article}
 
 % Basic packages
+\usepackage{listings}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{graphicx}
@@ -34,8 +35,7 @@ I will use the term "Whale" to refer to the language Whales are speaking. For ex
 
 \section{Related Work}
 Studies on neural networks, such as AlphaFold for molecular interactions, have shown the potential for applying similar techniques to decode whale songs. \\ \\
-One paper specifically about whales is interesting, and partially motivated this work:
-"A Theory of Unsupervised Translation Motivated by Understanding Animal Communication" (https://arxiv.org/abs/2211.11081) \\ \\
+One paper specifically about whales is interesting, and partially motivated this work: \cite{animalcommunication}. \\ \\
 However, it lacks specificity and clarity for their favored approach, and tries to cover a lot of ground which is not entirely needed for simply trying to translate Whale.\\ \\
 Several studies have explored backtranslation techniques to improve neural machine translation. Notably, the work by Lambert et al. provides a method for improving unsupervised neural machine translation with semantically weighted backtranslation, which is particularly relevant for morphologically rich and low-resource languages \cite{backtranslation1}. Another significant contribution is by the Language Resource Association, which presents an approach for training data self-correction to enhance unsupervised neural machine translation \cite{backtranslation2}.
 
@@ -128,9 +128,149 @@ The datasets provided a comprehensive set of whale vocalizations and environment
 
 I would primarily be interested in using two whale datasets for this work: 
 
-1) Seven months of recordings from the THEMO observatory \cite{themo}, containing both ambient and anthropogenic noise but no whale clicks, 
+1) 
+\begin{lstlisting}[breaklines=true, breakatwhitespace=true, columns=flexible, basicstyle=\ttfamily\small]
+Bermant, P.C., Bronstein, M.M., Wood, R.J. et al. Deep Machine Learning Techniques for the Detection and Classification of Sperm Whale Bioacoustics. Sci Rep 9, 12588 (2019). https://doi.org/10.1038/s41598-019-48909-4
+
+For more detailed whale datasets, we will use recordings from socially segregated, sympatric sperm whale clans in the 
+Atlantic Ocean \cite{rsos}. These recordings were conducted over a decade, from 2005 through 2015, covering 
+approximately 2000 km\textsuperscript{2} along the western coast of Dominica (15.30 degree N, 61.40degree W). Membership in social 
+units was designated based on photo-identification analysis and long-term spatio-temporal coordination among unit 
+members. Acoustic recordings were made during deep foraging dives and socializing at the surface, using various systems 
+with flat frequency responses across ranges of at least 2-20 kHz and sampling rates of 44.1 kHz or higher. For this 
+study, the focus will be on the EC1 clan, which predominates in the study area and neighboring waters \cite{rsos}.
+
+Using LStM and GRU Rnns to classify codas, determine vocal clan, and recognize individual
+whales. Using LSTM RNNs, we construct deep artificial neural networks, which we train to perform a num-
+ber of classification tasks based on high-quality manually annotated datasets. Data used in this study comes
+from two long-term field studies on sperm whales: (1) off the island of Dominica in the eastern Caribbean 31
+; and
+(2) across the ETP but with a focus on the Galapagos Islands 58 . The two study sites employed similar methods
+common in the study of this species to detect, follow, and record sperm whales as well as similar analytical tech-
+niques to define coda types, delineate vocal clans, and identify individual whales (details in 29,44,59
+). The Dominica dataset contains ~9,000 annotated codas that were collected across 3,834 hours with whales on 406 days 
+over 530
+days of effort from 2005-2016. This represents recordings from over 10 different social units who are members of
+two vocal clans referred to as "EC1" and "EC2" 31,44
+. The ETP dataset contains ~17,000 annotated codas collected
+between 1985-2014 based on recordings of over 89 groups who are members of six vocal clans29,59
+. The annotated
+datasets contain inter-click interval (the absolute time between clicks in a coda, ICI) vectors classified according
+to categorical coda type, vocal clan membership, and (in the case of the Dominica dataset) individual whale
+identity using the methods outlined in the publications listed above. While codas tend to be comprised of 3-40
+clicks 27 , we restrict the analysis to codas with at most 10 clicks using the Dominica dataset or at most 12 clicks
+using the ETP dataset.
+
+Abstract 
+
+The Dominica database is used to evaluate and compare the performance of sperm whale click detectors. The database consists of 3 hours of recordings of sperm whale echolocation clicks and 4 hours of sound recordings containing delphinid clicks and transients from different sound sources, but no sperm whale clicks. Data were collected in September 2023 approximately 2 km west off the coast of Dominica Island in the eastern Caribbean using a home-built recorder equipped with an M36 Geospectrum hydrophone with near-constant sensitivity in the frequency range of 2 kHz to 20 kHz and a sampling rate of 192 kHz. The recordings lasted 5 days, with the recorder deployed at a depth of 20 m and anchored to a free-drifting buoy on the surface. The water depth was about 1,600 m.
+Instructions: 
+
+This database is divided into two folders: Signal parts: consist of recordings containing sperm whales' clicks. Noise parts: consist of continuous recordings containing delphinid clicks and transients from various noise sources, but no sperm whale clicks. Additionally, a mat file named "Annotations_Dominica" is included, which contains a cell array with 28,300 annotations of sperm whale echolocation clicks. The array is structured in two columns: one describes the names of the recordings and the other contains a vector of the arrival time of the annotated clicks (in seconds).
+
+https://ieee-dataport.org/documents/dominica-dataset
+(note: it is ~18Gb download, but it seems this is the only data source with consecutive clicks).
+"We demonstrate that LSTM and GRU, RNN architec-
+tures used for speech recognition and text translation, are able to classify codas into recognizable types and to
+accurately predict the clan membership and individual identity of the signaler."
+
+"In addition, our results show the
+feasibility of using "self-supervised" learning on proxy tasks and applying trained neural networks to label unseen
+coda data according to type, clan, and individual whale, which could drastically expedite the analysis of recorded
+sperm whale signals.
+The datasets in this study collectively contain ~26,000 annotated sperm whale codas and represent the largest
+available labeled data of sperm whale coda signals. Using these datasets, this study exhibits the potential appli-
+cations of ML to sperm whale vocalizations by demonstrating the ability of NNs to perform detection and clas-
+sification tasks with high degrees of accuracy"
+This dataset is what is run to classify, althoug:
+https://github.com/dgruber212/Sperm_Whale_Machine_Learning/tree/master
+
+\end{lstlisting}
 
 2) Recordings of 1203 tagged clicks of a single whale from the Bahamas with 120 sec of noise-only recording and recordings of over 15,000 manually tagged clicks from multiple whales recorded on the Dominica Island together with 3.6 hours of noise-only data \cite{ceti}. \\ \\
+3)
+\begin{lstlisting}[breaklines=true, breakatwhitespace=true, columns=flexible, basicstyle=\ttfamily\small]
+Evidence of social learning across symbolic cultural barriers
+in sperm whales
+@misc{leitao2024evidencesociallearningsymbolic,
+      title={Evidence of social learning across symbolic cultural barriers in sperm whales}, 
+      author={Antonio Leitao and Maxime Lucas and Simone Poetto and Taylor A. Hersh and Shane Gero and David Gruber and Michael Bronstein and Giovanni Petri},
+      year={2024},
+      eprint={2307.05304},
+      archivePrefix={arXiv},
+      primaryClass={cs.SI},
+      url={https://arxiv.org/abs/2307.05304}, 
+}
+
+"We model the internal structure of codas, in terms of rhythmic variations at the level of clicks,
+by using variable length Markov chains (VLMCs). Our analytical pipeline is illustrated in Fig. 1C.
+We build each VLMC in two main steps. We first convert codas, naturally represented as sequences
+of continuous, absolute, inter-click intervals (ICIs), to sequences of discrete ICIs (dICIs), by dis-
+cretizing time into bins. In this way, each dICI represents a narrow range of possible ICI values.
+The bins have a fixed width (or resolution) deltat and thus implicitly correspond to the temporal
+resolution of our representation (see Methods for details on the optimal choice of deltat). Note that
+although ICIs have units of time (seconds), dICIs are (unit-less) symbols (e.g. A, B, C, etc.), rep-
+resenting multiples of deltat (and so the smaller deltat, the more the symbols). For example, the shortest
+ICIs will be mapped to the symbol A whereas longer ones will be mapped to symbols further down
+the alphabet. Hence, each coda (a sequence of ICIs) is mapped to a sequence of discrete symbols
+(a sequence of dICIs). The second part of the pipeline focuses on modeling the internal structure
+of codas in terms of dICI sequences. Essentially, we want to estimate transition probabilities from
+a dICI sub-sequence to the next dICI (Fig. 1B)."
+
+So that means they have datasets which are 1. labelled by coda 2. sequential temporally. But I couldn't find anything that seemed like it matched that.
+
+
+"The information about vocal style contained in subcoda trees is sufficient to recover the social
+structure of sperm whales (social units and clans). We show this in two ways. First, we analyze a
+dataset from sperm whales in Dominica (Dominica dataset) [21]. This dataset has rich annotations
+(coda type annotations, identity of recorded whales, social relations of recorded whales) which
+makes it particularly useful for validation"
+
+BUT
+following the link, this is just for \bibitem{rsos} (Socially segregated, sympatric sperm whale clans in the Atlantic Ocean).
+
+"Socially segregated, sympatric sperm whale clans in the Atlantic Ocean" only seems to have one dataset:
+
+https://datadryad.org/stash/dataset/doi:10.5061/dryad.53g73
+
+that contains, e.g.:
+
+codaNUM ICI1    ICI2    ICI3    ICI4    ICI5    ICI6    ICI7    ICI8    ICI9    typeName    Unit
+1   0.293   0.282   0.298   0.315   0   0   0   0   0   5   5R3 1
+
+4931 rows of that.
+
+
+There is no identity, social relationship!
+So I don't see where that data comes from.
+
+Further on, they say:
+
+"Motivated by these results, we extend our analysis to a much larger dataset from the Pacific
+Ocean (Pacific dataset) [11]. This dataset is more sparsely annotated because of the breadth of its
+spatial coverage. We restricted our analyses to a well-sampled subset (n = 57 coda samples) of the
+full Pacific dataset (see Methods for details). Coda samples are only labeled by the spatial position
+at which they were recorded, but no information is available about the identity of the vocalizing
+sperm whales (see Methods for details). In fact, each repertoire likely contains codas from multiple
+individuals of a single clan. It has recently been shown that these coda samples can be divided
+into seven vocal clans based on their coda usage [11]. We use those clans as a benchmark for the
+following analysis.
+Since there is no social unit-level information for this dataset, we fit a subcoda tree for each
+repertoire (i.e., all of the codas recorded on a single day in a single region)."
+
+Okay that's great, looks like there should be lots of good sequentially utterred codas for us.
+[11] Hersh, T. A. et al. Evidence from sperm whale clans of symbolic marking in non-human
+cultures. Proc. Natl. Acad. Sci. 119, e2201692119 (2022).
+
+Indeed the data are here:
+
+https://osf.io/2jhd4
+
+This dataset looks good, although of course it's annoying we don't know which whale made each coda. On a day with a lot of data there might be 200 codas. That seems a bit odd. For the machine learning paper ((2) above), there were 28,300 annotations of sperm whale echolocation clicks over what appears to be 5 days. I guess this is because researchers were manually annotating! So most likely, the machine learning dataset above is what we start with.
+
+
+\end{lstlisting}
+
 Also see:
 \begin{itemize}
     \item \href{https://www.projectceti.org/}{Project CETI}
@@ -138,21 +278,9 @@ Also see:
     \item \href{https://www.youtube.com/playlist?list=PL-7Ju3RM0_oUKDIfBWlsOhONsXimWfMlF}{Project CETI Workshop - Decoding Communication in Nonhuman June 12-13, 2023 @ Simons Institute for the Theory of Computing}
 \end{itemize}
 
-For more detailed whale datasets, we will use recordings from socially segregated, sympatric sperm whale clans in the Atlantic Ocean \cite{rsos}. These recordings were conducted over a decade, from 2005 through 2015, covering approximately 2000 km\textsuperscript{2} along the western coast of Dominica (15.30° N, 61.40° W). Membership in social units was designated based on photo-identification analysis and long-term spatio-temporal coordination among unit members. Acoustic recordings were made during deep foraging dives and socializing at the surface, using various systems with flat frequency responses across ranges of at least 2–20 kHz and sampling rates of 44.1 kHz or higher. For this study, the focus will be on the EC1 clan, which predominates in the study area and neighboring waters \cite{rsos}.
 
 \section{Validation}
 Validation is performed using unseen whale vocalizations, comparing the accuracy of \textit{whale\_to\_english\_back\_to\_whale} to that of the training data.
-
-\section{Potential Challenges}
-\begin{enumerate}
-    \item Poor performance of $M_w$
-    \item Insufficient context for accurate translation
-    \item Tendency towards common whale utterances in back-translation
-    \item Development of a system to "cheat" the translation process
-    \item Unclear direction of penalties for efficient learning
-    \item Overfitting to specific training data
-    \item Risk of translating only sounds and grammar without capturing meaning
-\end{enumerate}
 \section{Test Case Refinement - Low resource human languages}
 There is a need to refine the methodology with a test case with a known solution. This will:
 \begin{enumerate}
@@ -202,7 +330,16 @@ After careful consideration, \textbf{Navajo} was selected as the most suitable t
 \end{itemize}
 
 These datasets allow testing when converting from a given spoken language to a series of letters corresponding to vocals, similar to Navajo. It helps establish a baseline for the ability of an unsupervised translation algorithm to effectively translate an unknown language into a known language.
-
+\section{Potential Challenges}
+\begin{enumerate}
+    \item Poor performance of $M_w$
+    \item Insufficient context for accurate translation
+    \item Tendency towards common whale utterances in back-translation
+    \item Development of a system to "cheat" the translation process
+    \item Unclear direction of penalties for efficient learning
+    \item Overfitting to specific training data
+    \item Risk of translating only sounds and grammar without capturing meaning
+\end{enumerate}
 \section{Miscellaneous end notes}
 
 It might be better to have an ensemble of answers for a given translation whale\_to\_english\_back\_to\_whale, and then boost the model with the best of these answers. That addresses 5, as it gives the model a direction to move the prediction.
@@ -235,6 +372,8 @@ Lambert et al., "Improved Unsupervised Neural Machine Translation with Semantica
 \bibitem{backtranslation2}
 Language Resource Association, "Improving Unsupervised Neural Machine Translation via Training Data Self-Correction," \textit{LREC-COLING 2024}, pages 8942–8954, May 2024, available at \url{https://aclanthology.org/2024.lrec-coling.8942}.
 
+\bibitem{animalcommunication}
+"A Theory of Unsupervised Translation Motivated by Understanding Animal Communication," available at: \url{https://arxiv.org/abs/2211.11081}.
 
 \end{thebibliography}
 \end{document}
