@@ -34,7 +34,8 @@ I will use the term "Whale" to refer to the language Whales are speaking. For ex
 Studies on neural networks, such as AlphaFold for molecular interactions, have shown the potential for applying similar techniques to decode whale songs. \\ \\
 One paper specifically about whales is interesting, and partially motivated this work:
 "A Theory of Unsupervised Translation Motivated by Understanding Animal Communication" (https://arxiv.org/abs/2211.11081) \\ \\
-However, it lacks specificity and clarity for their favored approach, and tries to cover a lot of ground which is not entirely needed for simply trying to translate Whale.
+However, it lacks specificity and clarity for their favored approach, and tries to cover a lot of ground which is not entirely needed for simply trying to translate Whale.\\ \\
+Several studies have explored backtranslation techniques to improve neural machine translation. Notably, the work by Lambert et al. provides a method for improving unsupervised neural machine translation with semantically weighted backtranslation, which is particularly relevant for morphologically rich and low-resource languages \cite{backtranslation1}. Another significant contribution is by the Language Resource Association, which presents an approach for training data self-correction to enhance unsupervised neural machine translation \cite{backtranslation2}.
 
 
 \section{Introduction}
@@ -130,13 +131,15 @@ I would primarily be interested in using two whale datasets for this work:
 
 1) Seven months of recordings from the THEMO observatory \cite{themo}, containing both ambient and anthropogenic noise but no whale clicks, 
 
-2) Recordings of 1203 tagged clicks of a single whale from the Bahamas with 120 sec of noise-only recording and recordings of over 15,000 manually tagged clicks from multiple whales recorded on the Dominica Island together with 3.6 hours of noise-only data. \cite{ceti}. \\ \\
+2) Recordings of 1203 tagged clicks of a single whale from the Bahamas with 120 sec of noise-only recording and recordings of over 15,000 manually tagged clicks from multiple whales recorded on the Dominica Island together with 3.6 hours of noise-only data \cite{ceti}. \\ \\
 Also see:
 \begin{itemize}
     \item \href{https://www.projectceti.org/}{Project CETI}
     \item \href{https://www.projectceti.org/news-research-insights#publications}{Project CETI Publications}
     \item \href{https://www.youtube.com/playlist?list=PL-7Ju3RM0_oUKDIfBWlsOhONsXimWfMlF}{Project CETI Workshop - Decoding Communication in Nonhuman June 12-13, 2023 @ Simons Institute for the Theory of Computing}
 \end{itemize}
+
+For more detailed whale datasets, we will use recordings from socially segregated, sympatric sperm whale clans in the Atlantic Ocean \cite{rsos}. These recordings were conducted over a decade, from 2005 through 2015, covering approximately 2000 km\textsuperscript{2} along the western coast of Dominica (15.30° N, 61.40° W). Membership in social units was designated based on photo-identification analysis and long-term spatio-temporal coordination among unit members. Acoustic recordings were made during deep foraging dives and socializing at the surface, using various systems with flat frequency responses across ranges of at least 2–20 kHz and sampling rates of 44.1 kHz or higher. For this study, the focus will be on the EC1 clan, which predominates in the study area and neighboring waters \cite{rsos}.
 
 \section{Validation}
 Validation is performed using unseen whale vocalizations, comparing the accuracy of \textit{whale\_to\_english\_back\_to\_whale} to that of the training data.
@@ -151,6 +154,57 @@ Validation is performed using unseen whale vocalizations, comparing the accuracy
     \item Overfitting to specific training data
     \item Risk of translating only sounds and grammar without capturing meaning
 \end{enumerate}
+\section{Test Case Refinement - Low resource human languages}
+There is a need to refine the methodology with a test case with a known solution. This will:
+\begin{enumerate}
+    \item Identify the appropriate size of the language model needed.
+    \item Help to experiment and improve methodology for the test case, which should also improve the whale case.
+\end{enumerate}
+
+It is important to use a language that has very little leakage into the training set for an English language model, making it reasonably analogous to the translation from whale.
+
+The methodology to test and refine the method outlined above with low resource human languages is as follows.
+
+Using an isolate language ensures there is no leakage of that language's grammar or words into English, preventing an easier translation due to prior knowledge.
+
+The context of the recordings should be significantly different from the context in which English is spoken. This similarity to the different context of whale vocalizations makes the task more analogous.
+
+Starting with a spoken language and using a similar approach as the SETI project is also beneficial. This includes grouping into phonemes and converting those phonemes into letters of the English alphabet.
+
+The use of a language that is particularly complex and foreign to English speakers is more appropriate. The more complex and alien the language, the more analogous it is expected to be to whale vocalizations.
+
+Additionally, certain features of whale communication can be incorporated into test languages. For example, human languages with clicks and tones may be useful due to whales' use of clicks and tone as markers of meaning.
+
+\subsection{Selection of Test Language}
+In selecting a test language, several criteria were considered to ensure the chosen language is appropriately analogous to whale vocalizations:
+\begin{enumerate}
+    \item Linguistic Isolation: The language should be a linguistic isolate or significantly different from English in terms of structure and origins.
+    \item Extensive Documentation: There should be a substantial corpus of digitized texts or recordings available for study.
+    \item Cultural Distinction: The culture associated with the language should be distinct and relatively unrelated to Western cultures to avoid cultural leakage.
+    \item Availability of Audio Recordings: Ideally, the language should have historical audio recordings that capture it in a native, traditional context.
+\end{enumerate}
+
+Several languages were considered based on these criteria:
+
+\paragraph{Old Javanese (Kawi)} An ancient language used in Java from the 8th to 16th centuries, with a rich literary tradition and a distinct Hindu-Buddhist culture. Significant corpus of digitized texts is available, including epic poems and religious texts.
+
+\paragraph{Classical Nahuatl} The language of the Aztec Empire, part of the Uto-Aztecan family, with extensive digitized texts including the Florentine Codex and Cantares Mexicanos. It offers a unique view of Mesoamerican culture.
+
+\paragraph{Navajo} An Athabaskan language with a complex structure and extensive historical recordings, including those made during World War II by Navajo Code Talkers. It represents a distinct cultural heritage with minimal leakage into mainstream English culture.
+
+\paragraph{Ket} A Yeniseian language spoken in Siberia, with a limited number of speakers and some recorded materials. It is an isolate with unique linguistic features and minimal exposure to Western culture.
+
+\paragraph{Xhosa and Zulu} Bantu languages with click consonants, spoken in South Africa. They have significant recordings and a rich cultural heritage, though there has been some cultural leakage into Western consciousness. \\ \\
+After careful consideration, \textbf{Navajo} was selected as the most suitable test language. Its polysynthetic structure, extensive historical recordings, and minimal cultural leakage make it an ideal candidate for refining the translation methodology. Additionally, the availability of recordings in traditional contexts provides valuable data for testing the translation framework.
+
+
+\subsection{Potential Datasets for Test Task}
+\begin{itemize}
+    \item The Endangered Languages Archive (ELAR)
+    \item The World Oral Literature Project, which has collected recordings of endangered languages worldwide
+\end{itemize}
+
+These datasets allow testing when converting from a given spoken language to a series of letters corresponding to vocals, similar to Navajo. It helps establish a baseline for the ability of an unsupervised translation algorithm to effectively translate an unknown language into a known language.
 
 \section{Miscellaneous end notes}
 
@@ -174,6 +228,16 @@ In 2018 OCEANS-MTS/IEEE Kobe Techno-Oceans (OTO), pages 1–5. IEEE, 2018.
 \bibitem{ceti}
 Link to implementation code and database [online]. available at: 
 \url{https://drive.google.com/drive/folders/1HkGZcpYbrft3pGtqdt45bUZXVcrJVrdm?usp=sharing}.
+
+\bibitem{rsos}
+Luca M. Lambert, Hal Whitehead, Shane Gero, "Socially segregated, sympatric sperm whale clans in the Atlantic Ocean," \textit{Royal Society Open Science}, 2016, available at \url{http://dx.doi.org/10.1098/rsos.160061}.
+
+\bibitem{backtranslation1}
+Lambert et al., "Improved Unsupervised Neural Machine Translation with Semantically Weighted Back Translation for Morphologically Rich and Low Resource Languages," \textit{ACL Anthology}, 2022, available at \url{https://aclanthology.org/2022.acl-long.2}.
+
+\bibitem{backtranslation2}
+Language Resource Association, "Improving Unsupervised Neural Machine Translation via Training Data Self-Correction," \textit{LREC-COLING 2024}, pages 8942–8954, May 2024, available at \url{https://aclanthology.org/2024.lrec-coling.8942}.
+
 
 \end{thebibliography}
 \end{document}
