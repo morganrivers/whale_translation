@@ -94,18 +94,18 @@ Three penalty functions are employed to refine the translation process:
 
 \begin{itemize}
     \item $P_{we}$: English likelihood penalty
-    \item $P_{wew}$: Whale context probability penalty
+    \item $P_{we}$: Whale context probability penalty
     \item $P_{sd}$: Semantic distance penalty
 \end{itemize}
 \subsection{English Likelihood Penalty (\texorpdfstring{\(P_{we}\)}{Pwe})}
 $P_{we}$ is calculated using $M_e$ to evaluate the average probability per token of the \textit{whale\_to\_english} paragraph. A high $P_{we}$ indicates an unlikely English paragraph.
 
-\subsection{Whale Context Probability Penalty (\texorpdfstring{\(P_{wew}\)}{Pwew})}
+\subsection{Whale Context Probability Penalty (\texorpdfstring{\(P_{we}\)}{Pwew})}
 
-$P_{wew}$ is determined by inserting \textit{whale\_to\_english\_back\_to\_whale} into the overall whale text and calculating the probability using $M_w$. A high $P_{wew}$ indicates low probability of the translated whale text appearing in that context.
+$P_{we}$ is determined by inserting \textit{whale\_to\_english\_back\_to\_whale} into the overall whale text and calculating the probability using $M_w$. A high $P_{we}$ indicates low probability of the translated whale text appearing in that context.
 
 \subsection{Semantic Distance Penalty (\texorpdfstring{\(P_{sd}\)}{Psd})}
-$P_{sd}$ measures the semantic distance between the original whale paragraph and \textit{whale\_to\_english\_back\_to\_whale}. A high $P_{sd}$ indicates significant divergence in meaning. This penalty is weighted higher than $P_{wew}$ to prioritize meaning preservation.
+$P_{sd}$ measures the semantic distance between the original whale paragraph and \textit{whale\_to\_english\_back\_to\_whale}. A high $P_{sd}$ indicates significant divergence in meaning. This penalty is weighted higher than $P_{we}$ to prioritize meaning preservation.
 
 \section{Putting it all together}
 The penalties are used for reinforcement learning applied to $M_{we}$. This process is repeated for all available paragraphs, potentially tens of thousands of times, effectively fine-tuning the model on a paragraph-by-paragraph basis.
@@ -182,7 +182,7 @@ The datasets in this study collectively contain ~26,000 annotated sperm whale co
 available labeled data of sperm whale coda signals. Using these datasets, this study exhibits the potential appli-
 cations of ML to sperm whale vocalizations by demonstrating the ability of NNs to perform detection and clas-
 sification tasks with high degrees of accuracy"
-This dataset is what is run to classify, althoug:
+This dataset is what is run to classify, although:
 https://github.com/dgruber212/Sperm_Whale_Machine_Learning/tree/master
 
 \end{lstlisting}
@@ -332,13 +332,13 @@ After careful consideration, \textbf{Navajo} was selected as the most suitable t
 These datasets allow testing when converting from a given spoken language to a series of letters corresponding to vocals, similar to Navajo. It helps establish a baseline for the ability of an unsupervised translation algorithm to effectively translate an unknown language into a known language.
 \section{Potential Challenges}
 \begin{enumerate}
-    \item Poor performance of $M_w$
-    \item Insufficient context for accurate translation
-    \item Tendency towards common whale utterances in back-translation
-    \item Development of a system to "cheat" the translation process
-    \item Unclear direction of penalties for efficient learning
-    \item Overfitting to specific training data
-    \item Risk of translating only sounds and grammar without capturing meaning
+    \item Poor performance of $M_w$.
+    \item Insufficient context for accurate translation.
+    \item Tendency towards common whale utterances in back-translation.
+    \item Development of a system to "cheat" the translation process.
+    \item Unclear direction of penalties for efficient learning.
+    \item Overfitting to specific training data.
+    \item Risk of translating only sounds and grammar without capturing meaning.
 \end{enumerate}
 \section{Miscellaneous end notes}
 
